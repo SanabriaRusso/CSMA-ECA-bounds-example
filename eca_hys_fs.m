@@ -78,7 +78,8 @@ TsHighMaxAg = dataframedurationHighStageMaxAg;
 TsLowMaxAg = dataframedurationLowStageMaxAg;
 
 highMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsHighMaxAg * nodesAtHighStage + (2 * nodesAtLowStage * TsLowMaxAg) + SLOT_TIME*(cycleLength-nodes));
-lowMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsLowMaxAg * nodesAtLowStage + (TsHighMaxAg *  nodesAtHighStage/2)+ SLOT_TIME*((2^lowStage * Bd) - nodes));
+lowMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsLowMaxAg * nodesAtLowStage + (TsHighMaxAg *  nodesAtHighStage/2));
+%lowMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsLowMaxAg * nodesAtLowStage + (TsHighMaxAg *  nodesAtHighStage/2)+ SLOT_TIME*((2^lowStage * Bd) - nodes));
 
 maxAgThroughput = double((highMaxAg*(nodesAtHighStage) + lowMaxAg*(nodesAtLowStage))*1e6);
 
