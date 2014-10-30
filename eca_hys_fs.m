@@ -55,7 +55,8 @@ dataframedurationLowStage = duration80211n(PACKET_PAYLOAD,aggregationLow,blockAc
 TsLow = dataframedurationLowStage;
 
 high = (2^aggregationHigh)*PACKET_PAYLOAD*8 / (TsHigh * nodesAtHighStage + (2 * nodesAtLowStage * TsLow) + SLOT_TIME*(cycleLength - nodes));
-low = (2^aggregationLow)*PACKET_PAYLOAD*8 / (TsLow * nodesAtLowStage + (TsHigh *  nodesAtHighStage/2)+ SLOT_TIME*((2^lowStage * Bd) - nodes));
+low = (2^aggregationLow)*PACKET_PAYLOAD*8 / (TsLow * nodesAtLowStage + (TsHigh *  nodesAtHighStage/2));
+%low = (2^aggregationLow)*PACKET_PAYLOAD*8 / (TsLow * nodesAtLowStage + (TsHigh *  nodesAtHighStage/2)+ SLOT_TIME*((2^lowStage * Bd) - nodes));
 
 %Total throughput
 Throughput = double((high*(nodesAtHighStage) + low*(nodesAtLowStage))*1e6);
