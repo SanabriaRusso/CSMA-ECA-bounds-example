@@ -33,9 +33,7 @@ else
 end;
 
 %Fixing the times according to Francesco's 
-SLOT_TIME = 16; %was 9
-% SIFS = 10;
-% DIFS = 28;
+SLOT_TIME = 9; %was 16
 PACKET_PAYLOAD = load;
 
 %Frame duration according to Channel.hh in the simulator
@@ -43,20 +41,18 @@ LDBPS = 256;
 TSYM = 4;
 blockAckframeduration = 32 + fix((16 + 256 + 6)/LDBPS) * TSYM;
 
-% dataframedurationHighStage = 32 + fix((16 + (2^aggregationHigh) * (32 + (PACKET_PAYLOAD*8) + 288) + 6) / LDBPS) * TSYM + SIFS + blockAckframeduration + DIFS + SLOT_TIME;
 dataframedurationHighStage = duration80211n(PACKET_PAYLOAD,aggregationHigh,blockAckframeduration);
 TsHigh = dataframedurationHighStage;
 
 
 %Transmission duration for nodes at low backoff stage according to
 %Channel.hh in the simulator
-% dataframedurationLowStage = 32 + fix((16 + (2^aggregationLow) * (32 + (PACKET_PAYLOAD*8) + 288) + 6) / LDBPS) * TSYM + SIFS + blockAckframeduration + DIFS + SLOT_TIME;
 dataframedurationLowStage = duration80211n(PACKET_PAYLOAD,aggregationLow,blockAckframeduration);
 TsLow = dataframedurationLowStage;
 
 high = (2^aggregationHigh)*PACKET_PAYLOAD*8 / (TsHigh * nodesAtHighStage + (2 * nodesAtLowStage * TsLow) + SLOT_TIME*(cycleLength - nodes));
-low = (2^aggregationLow)*PACKET_PAYLOAD*8 / (TsLow * nodesAtLowStage + (TsHigh *  nodesAtHighStage/2));
-%low = (2^aggregationLow)*PACKET_PAYLOAD*8 / (TsLow * nodesAtLowStage + (TsHigh *  nodesAtHighStage/2)+ SLOT_TIME*((2^lowStage * Bd) - nodes));
+%low = (2^aggregationLow)*PACKET_PAYLOAD*8 / (TsLow * nodesAtLowStage + (TsHigh *  nodesAtHighStage/2));
+low = (2^aggregationLow)*PACKET_PAYLOAD*8 / (TsLow * nodesAtLowStage + (TsHigh *  nodesAtHighStage/2)+ SLOT_TIME*((2^lowStage * Bd) - nodes));
 
 %Total throughput
 Throughput = double((high*(nodesAtHighStage) + low*(nodesAtLowStage))*1e6);
@@ -70,7 +66,6 @@ ThroughputFitted = double((fit * nodes)*1e6);
 
 
 %With maximum aggregation
-% dataframedurationHighStageMaxAg = 32 + fix((16 + (2^maxAg) * (32 + (PACKET_PAYLOAD*8) + 288) + 6) / LDBPS) * TSYM + SIFS + blockAckframeduration + DIFS + SLOT_TIME;
 dataframedurationHighStageMaxAg = duration80211n(PACKET_PAYLOAD,maxAg,blockAckframeduration);
 dataframedurationLowStageMaxAg = dataframedurationHighStageMaxAg;
 
@@ -78,8 +73,8 @@ TsHighMaxAg = dataframedurationHighStageMaxAg;
 TsLowMaxAg = dataframedurationLowStageMaxAg;
 
 highMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsHighMaxAg * nodesAtHighStage + (2 * nodesAtLowStage * TsLowMaxAg) + SLOT_TIME*(cycleLength-nodes));
-lowMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsLowMaxAg * nodesAtLowStage + (TsHighMaxAg *  nodesAtHighStage/2));
-%lowMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsLowMaxAg * nodesAtLowStage + (TsHighMaxAg *  nodesAtHighStage/2)+ SLOT_TIME*((2^lowStage * Bd) - nodes));
+%lowMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsLowMaxAg * nodesAtLowStage + (TsHighMaxAg *  nodesAtHighStage/2));
+lowMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsLowMaxAg * nodesAtLowStage + (TsHighMaxAg *  nodesAtHighStage/2)+ SLOT_TIME*((2^lowStage * Bd) - nodes));
 
 maxAgThroughput = double((highMaxAg*(nodesAtHighStage) + lowMaxAg*(nodesAtLowStage))*1e6);
 
