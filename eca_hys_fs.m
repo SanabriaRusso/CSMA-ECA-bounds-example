@@ -51,16 +51,16 @@ dataframedurationLowStage = duration80211n(PACKET_PAYLOAD,aggregationLow,blockAc
 TsLow = dataframedurationLowStage;
 
 high = (2^aggregationHigh)*PACKET_PAYLOAD*8 / (TsHigh * nodesAtHighStage + (2 * nodesAtLowStage * TsLow) + SLOT_TIME*(cycleLength - nodes));
-%low = (2^aggregationLow)*PACKET_PAYLOAD*8 / (TsLow * nodesAtLowStage + (TsHigh *  nodesAtHighStage/2));
-low = (2^aggregationLow)*PACKET_PAYLOAD*8 / (TsLow * nodesAtLowStage + (TsHigh *  nodesAtHighStage/2)+ SLOT_TIME*((2^lowStage * Bd) - nodes));
+low = (2^aggregationLow)*PACKET_PAYLOAD*8 / (TsLow * nodesAtLowStage + (TsHigh *  nodesAtHighStage/2));
+%low = (2^aggregationLow)*PACKET_PAYLOAD*8 / (TsLow * nodesAtLowStage + (TsHigh *  nodesAtHighStage/2)+ SLOT_TIME*((2^lowStage * Bd) - nodes));
 
 %Total throughput
 Throughput = double((high*(nodesAtHighStage) + low*(nodesAtLowStage))*1e6);
 
 
-%Fitting the cyclelength and accomodating all nodes
-dataframedurationFit = duration80211n(PACKET_PAYLOAD,0,blockAckframeduration);
-fit = (2^0)*PACKET_PAYLOAD*8 / (dataframedurationFit * nodes + SLOT_TIME*(cycleLength - nodes));
+%Using the maximum backoff stage for the cycle length and aggregation
+dataframedurationFit = duration80211n(PACKET_PAYLOAD,maxAg,blockAckframeduration);
+fit = (2^maxAg)*PACKET_PAYLOAD*8 / (dataframedurationFit * nodes + SLOT_TIME*(maxCycle - nodes));
 
 ThroughputFitted = double((fit * nodes)*1e6);
 
@@ -73,8 +73,8 @@ TsHighMaxAg = dataframedurationHighStageMaxAg;
 TsLowMaxAg = dataframedurationLowStageMaxAg;
 
 highMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsHighMaxAg * nodesAtHighStage + (2 * nodesAtLowStage * TsLowMaxAg) + SLOT_TIME*(cycleLength-nodes));
-%lowMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsLowMaxAg * nodesAtLowStage + (TsHighMaxAg *  nodesAtHighStage/2));
-lowMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsLowMaxAg * nodesAtLowStage + (TsHighMaxAg *  nodesAtHighStage/2)+ SLOT_TIME*((2^lowStage * Bd) - nodes));
+lowMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsLowMaxAg * nodesAtLowStage + (TsHighMaxAg *  nodesAtHighStage/2));
+%lowMaxAg = (2^maxAg)*PACKET_PAYLOAD*8 / (TsLowMaxAg * nodesAtLowStage + (TsHighMaxAg *  nodesAtHighStage/2)+ SLOT_TIME*((2^lowStage * Bd) - nodes));
 
 maxAgThroughput = double((highMaxAg*(nodesAtHighStage) + lowMaxAg*(nodesAtLowStage))*1e6);
 

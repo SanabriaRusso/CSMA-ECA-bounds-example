@@ -19,8 +19,15 @@ function plotta(nodes, CWmin, load)
 	xlabel('Contenders (N)');
 	ylabel('Throughput (Mbps)');
 	set(gca(),'ytick',(0:5:y(nodes)), 'xtick',(0:nodes/10:nodes));	
-    legend('CSMA/ECA + Hys + FS', 'CSMA/ECA + Hys + FS Max Agg', 'CSMA/ECA (fit)', 'Location', 'best');
+    legend('CSMA/ECA + Hys + FS', 'CSMA/ECA + Hys + Max Agg', 'CSMA/ECA (max. Stage and max. Ag.)', 'Location', 'best');
 
+    t = datestr(now);
+
+	filename = ['throughput-' t '.eps'];
+
+	saveas(h, filename, 'epsc2');
+
+    
     
     g = figure(2);
     plot(j, 'r', 'LineWidth', 2); hold on;
@@ -31,13 +38,13 @@ function plotta(nodes, CWmin, load)
     xlabel('Contenders (N)');
 	ylabel('JFI');
     set(gca(),'ytick',(0:0.1:1), 'xtick',(0:nodes/10:nodes));	
-    legend('CSMA/ECA + Hys + FS', 'CSMA/ECA (fit)', 'CSMA/ECA + Hys + FS Max Agg', 'Location', 'best');
+    legend('CSMA/ECA + Hys + FS', 'CSMA/ECA (max. Stage and max. Ag.)', 'CSMA/ECA + Hys + Max Agg', 'Location', 'best');
     
-	%t = datestr(now);
+	t = datestr(now);
 
-	%filename = ['test-' t '.eps'];
+	filename = ['JFI-' t '.eps'];
 
-	%saveas(h, filename, 'epsc2');
+	saveas(g, filename, 'epsc2');
 
 
 end
